@@ -45,7 +45,10 @@ export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
         path !== "listavailability" &&
         path !== "reserve"
       ) {
-        return send400(socket);
+        return send400(
+          socket,
+          `Please use one of the "display", "listavailability" or "reserve" methods!`
+        );
       }
 
       let roomName = "";
@@ -97,7 +100,7 @@ export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
 
   server.on("error", (e) => {
     if (e.code === "EADDRINUSE") {
-      console.log("[Reservation Server] Address in use, retrying...");
+      console.log("<Reservation Server> Address in use, retrying...");
     }
   });
 

@@ -22,7 +22,7 @@ export default (portNumber) => {
       let query = "";
       let path = "";
 
-      //Checks if its a favicon request from the browser.
+      // Checks if its a favicon request from the browser.
       if (request[0].split(" ")[1] === "/favicon.ico") {
         const response = createResponseToFaviconRequest();
         return socket.end(response);
@@ -36,25 +36,32 @@ export default (portNumber) => {
       }
 
       if (path !== "add" && path !== "remove" && path !== "check") {
-        return send400(socket);
+        return send400(
+          socket,
+          `Please use one of the "add", "remove" or "check" methods!`
+        );
       }
 
       const name = query.split("name=")[1]?.trim();
+
       if (name === "" || name == undefined) {
         return send400(socket);
       }
 
       if (path === "add") return add(activities, activityPath, name, socket);
+
       if (path === "remove")
         return remove(activities, activityPath, name, socket);
+
       if (path === "check") return check(activities, name, socket);
     });
   });
 
   server.listen(portNumber);
+
   server.on("error", (e) => {
     if (e.code === "EADDRINUSE") {
-      console.log("[Activity Server] Address in use, retrying...");
+      console.log("<Activity Server> Address in use, retrying...");
     }
   });
   return server;

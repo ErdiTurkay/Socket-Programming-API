@@ -11,6 +11,7 @@ export const add = (room, roomPath, name, socket) => {
       return send403(socket, "A room with this name already exists!");
     }
   }
+
   let newRoom = createRoom(name);
   room.rooms.push(newRoom);
 
