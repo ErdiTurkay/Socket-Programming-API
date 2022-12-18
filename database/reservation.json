@@ -1,0 +1,10 @@
+{
+  "reservations": [
+    {
+      "id": 1,
+      "activity": "Meeting",
+      "room": "M1Z06",
+      "when": "Friday 10:00 - 12:00"
+    }
+  ]
+}
