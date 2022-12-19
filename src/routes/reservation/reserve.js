@@ -22,7 +22,7 @@ export const reserve = (
     hour = query.split("&")[3].split("hour=")[1]?.trim();
     duration = query.split("&")[4].split("duration=")[1]?.trim();
   } catch (err) {
-    return send400(socket);
+    return send400(socket, "Please enter a valid request!");
   }
 
   let reqToActivityServer =
@@ -33,6 +33,7 @@ export const reserve = (
     "\r\n";
 
   var activityClientSocket = new net.Socket();
+
   activityClientSocket.connect(activityServerPortNumber, "localhost", () => {
     // console.log(
     //   "Connection from Reservation Server to Activity Server"

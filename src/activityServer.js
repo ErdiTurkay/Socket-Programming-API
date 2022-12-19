@@ -32,7 +32,7 @@ export default (portNumber) => {
         path = request[0].split(" ")[1].split("?")[0].slice(1).trim();
         query = request[0].split(" ")[1].split("?")[1].trim();
       } catch (err) {
-        return send400(socket);
+        return send400(socket, "Please enter a valid request!");
       }
 
       if (path !== "add" && path !== "remove" && path !== "check") {

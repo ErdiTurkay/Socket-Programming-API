@@ -1,4 +1,4 @@
-import { writeFile } from "fs";
+import { writeFile, readFileSync } from "fs";
 import { createResponse } from "../../utils.js";
 import { createRoom } from "../../utils.js";
 import { sendFileWritingError } from "../../utils.js";

@@ -37,7 +37,7 @@ export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
         path = request[0].split(" ")[1].split("?")[0].slice(1).trim();
         query = request[0].split(" ")[1].split("?")[1].trim();
       } catch (err) {
-        return send400(socket);
+        return send400(socket, "Please enter a valid request!");
       }
 
       if (
@@ -57,7 +57,7 @@ export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
         roomName = query.split("&")[0].split("room=")[1]?.trim();
 
         if (roomName === "" || roomName == undefined) {
-          return send400(socket);
+          return send400(socket, "The room name must not be empty.");
         }
       }
 

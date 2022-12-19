@@ -12,6 +12,7 @@ export const add = (activities, activityPath, name, socket) => {
   }
 
   activities.names.push(name);
+
   return writeFile(activityPath, JSON.stringify(activities, null, 2), (err) => {
     if (err)
       return sendFileWritingError(

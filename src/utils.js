@@ -10,6 +10,18 @@ export const statusCodes = {
 };
 const httpVersion = "1.1";
 
+export const htmlTemplate = (statusCode, message) => {
+  return `<html>
+    <head>
+      <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon"> 
+      <title>${statusCode}</title>
+    </head>
+    <body>
+      <h1>${statusCode} <br> ${message}</h1>
+    </body>
+  </html>`;
+};
+
 export const createResponse = (status, title, message) => {
   const payload = `<html>
     <head>
@@ -129,17 +141,9 @@ export const createRoom = (name) => {
 };
 
 export const send400 = (socket, message) => {
-  const payload = `<html>
-    <head>
-      <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon"> 
-      <title>${statusCodes[400]}</title>
-    </head>
-    <body>
-      <h1>${statusCodes[400]} <br> ${message}</h1>
-    </body>
-  </html>`;
+  const html = htmlTemplate(statusCodes[400], message);
 
-  const contentLength = Buffer.byteLength(payload, "utf8");
+  const contentLength = Buffer.byteLength(html, "utf8");
 
   const response =
     "HTTP/" +
@@ -154,23 +158,15 @@ export const send400 = (socket, message) => {
     new Date().toUTCString() +
     "\r\n" +
     "\r\n" +
-    payload;
+    html;
 
   return socket.end(response);
 };
 
 export const send403 = (socket, message) => {
-  const payload = `<html>
-    <head>
-      <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon"> 
-      <title>${statusCodes[403]}</title>
-    </head>
-    <body>
-      <h1>${statusCodes[403]} <br> ${message}</h1>
-    </body>
-  </html>`;
+  const html = htmlTemplate(statusCodes[403], message);
 
-  const contentLength = Buffer.byteLength(payload, "utf8");
+  const contentLength = Buffer.byteLength(html, "utf8");
 
   const response =
     "HTTP/" +
@@ -185,7 +181,7 @@ export const send403 = (socket, message) => {
     new Date().toUTCString() +
     "\r\n" +
     "\r\n" +
-    payload;
+    html;
 
   return socket.end(response);
 };
@@ -204,7 +200,6 @@ export const getDayName = (day) => {
       return "Friday";
     case 6:
       return "Saturday";
-      break;
     case 7:
       return "Sunday";
     default:
@@ -236,18 +231,4 @@ export const createResponseToFaviconRequest = () => {
     "\r\n" +
     "\r\n"
   );
-  // return (
-  //   "HTTP/" +
-  //   httpVersion +
-  //   " " +
-  //   statusCodes[200] +
-  //   "\r\n" +
-  //   "Content-Type: image/x-icon\r\n" +
-  //   //"Content-Length: 0\r\n"+
-  //   "Cache-control: no-cache, max-age=0\r\n" +
-  //   "Date: " +
-  //   new Date().toUTCString() +
-  //   "\r\n" +
-  //   "\r\n"
-  // );
 };

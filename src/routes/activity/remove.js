@@ -1,12 +1,14 @@
 import { writeFile } from "fs";
-import { createResponse } from "../../utils.js";
-import { sendFileWritingError } from "../../utils.js";
-import { statusCodes } from "../../utils.js";
-import { send403 } from "../../utils.js";
+import {
+  createResponse,
+  sendFileWritingError,
+  statusCodes,
+  send403,
+} from "../../utils.js";
 
 export const remove = (activities, activityPath, name, socket) => {
   if (!activities.names.includes(name)) {
-    return send403(socket);
+    return send403(socket, "An activity with this name does not exist!");
   }
 
   activities.names.splice(activities.names.indexOf(name), 1);

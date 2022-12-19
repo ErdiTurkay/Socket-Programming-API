@@ -24,7 +24,7 @@ export const display = (reservation, query, socket) => {
                        When:  ${rt.when} `;
   const response = createResponse(
     statusCodes[200],
-    `Reservation id: ${reservationID}`,
+    `Reservation ID: ${reservationID}`,
     message
   );
 
