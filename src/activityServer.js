@@ -35,25 +35,25 @@ export default (portNumber) => {
         return send400(socket, "Please enter a valid request!");
       }
 
-      if (path !== "add" && path !== "remove" && path !== "check") {
-        return send400(
-          socket,
-          `Please use one of the "add", "remove" or "check" methods!`
-        );
-      }
-
       const name = query.split("name=")[1]?.trim();
 
       if (name === "" || name == undefined) {
         return send400(socket);
       }
 
-      if (path === "add") return add(activities, activityPath, name, socket);
-
-      if (path === "remove")
-        return remove(activities, activityPath, name, socket);
-
-      if (path === "check") return check(activities, name, socket);
+      switch (path) {
+        case "add":
+          return add(activities, activityPath, name, socket);
+        case "remove":
+          return remove(activities, activityPath, name, socket);
+        case "check":
+          return check(activities, name, socket);
+        default:
+          return send400(
+              socket,
+              `Please use one of the "add", "remove" or "check" methods!`
+          );
+      }
     });
   });
 

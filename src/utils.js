@@ -11,27 +11,33 @@ export const statusCodes = {
 const httpVersion = "1.1";
 
 export const htmlTemplate = (statusCode, message) => {
-  return `<html>
-    <head>
-      <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon"> 
-      <title>${statusCode}</title>
-    </head>
-    <body>
-      <h1>${statusCode} <br> ${message}</h1>
-    </body>
-  </html>`;
+
+  return `<DOCTYPE html>
+    <html>
+        <head>
+            <link rel="stylesheet" href="data:image/x-icon" type="image/x-icon">
+            <title>${statusCodes[statusCode]}</title>
+        </head>
+        <body>
+            <h1>${statusCodes[statusCode]}</h1>
+            <p>${message}</p>
+        </body>
+    </html>`;
 };
 
 export const createResponse = (status, title, message) => {
-  const payload = `<html>
-    <head>
-      <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon"> 
-      <title>${title}</title>
-    </head>
-    <body>
-      <h1>${message}</h1>
-    </body>
-  </html>`;
+
+  const payload = `<DOCTYPE html>
+    <html>
+        <head>
+            <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon">
+            <title>${statusCodes[status]}</title>
+        </head>
+        <body>
+            <h1>${title}</h1>
+            <p>${message}</p>
+        </body>
+    </html>`;
 
   const contentLength = Buffer.byteLength(payload, "utf8");
 
