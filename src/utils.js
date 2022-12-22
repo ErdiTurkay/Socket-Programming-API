@@ -147,7 +147,7 @@ export const createRoom = (name) => {
 };
 
 export const send400 = (socket, message) => {
-  const html = htmlTemplate(statusCodes[400], message);
+  const html = htmlTemplate(400, message);
 
   const contentLength = Buffer.byteLength(html, "utf8");
 
@@ -170,7 +170,7 @@ export const send400 = (socket, message) => {
 };
 
 export const send403 = (socket, message) => {
-  const html = htmlTemplate(statusCodes[403], message);
+  const html = htmlTemplate(403, message);
 
   const contentLength = Buffer.byteLength(html, "utf8");
 
