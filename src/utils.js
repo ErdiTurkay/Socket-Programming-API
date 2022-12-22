@@ -10,16 +10,16 @@ export const statusCodes = {
 };
 const httpVersion = "1.1";
 
-export const htmlTemplate = (statusCode, message) => {
+export const htmlTemplate = (title, message) => {
 
   return `<DOCTYPE html>
     <html>
         <head>
             <link rel="stylesheet" href="data:image/x-icon" type="image/x-icon">
-            <title>${statusCodes[statusCode]}</title>
+            <title>${title}</title>
         </head>
         <body>
-            <h1>${statusCodes[statusCode]}</h1>
+            <h1>${title}</h1>
             <p>${message}</p>
         </body>
     </html>`;
@@ -31,7 +31,7 @@ export const createResponse = (status, title, message) => {
     <html>
         <head>
             <link rel="shortcut icon" href="data:image/x-icon" type="image/x-icon">
-            <title>${statusCodes[status]}</title>
+            <title>${title}</title>
         </head>
         <body>
             <h1>${title}</h1>
@@ -64,82 +64,82 @@ export const createRoom = (name) => {
   room.name = name;
 
   room.days = {
-    day1: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    monday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
-    day2: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    tuesday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
-    day3: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    wednesday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
-    day4: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    thursday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
-    day5: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    friday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
-    day6: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    saturday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
-    day7: {
-      9: "empty",
-      10: "empty",
-      11: "empty",
-      12: "empty",
-      13: "empty",
-      14: "empty",
-      15: "empty",
-      16: "empty",
-      17: "empty",
+    sunday: {
+      9: "available",
+      10: "available",
+      11: "available",
+      12: "available",
+      13: "available",
+      14: "available",
+      15: "available",
+      16: "available",
+      17: "available",
     },
   };
 
@@ -147,7 +147,7 @@ export const createRoom = (name) => {
 };
 
 export const send400 = (socket, message) => {
-  const html = htmlTemplate(400, message);
+  const html = htmlTemplate(statusCodes[400], message);
 
   const contentLength = Buffer.byteLength(html, "utf8");
 
@@ -170,7 +170,7 @@ export const send400 = (socket, message) => {
 };
 
 export const send403 = (socket, message) => {
-  const html = htmlTemplate(403, message);
+  const html = htmlTemplate(statusCodes[403], message);
 
   const contentLength = Buffer.byteLength(html, "utf8");
 

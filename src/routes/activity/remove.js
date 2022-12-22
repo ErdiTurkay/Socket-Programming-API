@@ -13,7 +13,7 @@ export const remove = (activities, activityPath, name, socket) => {
 
   activities.names.splice(activities.names.indexOf(name), 1);
 
-  return writeFile(activityPath, JSON.stringify(activities), (err) => {
+  return writeFile(activityPath, JSON.stringify(activities, null, 2), (err) => {
     if (err)
       return sendFileWritingError(
         socket,

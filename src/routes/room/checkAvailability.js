@@ -30,14 +30,15 @@ export const checkAvailability = (room, name, query, socket) => {
   }
 
   let requestedRoom = room.rooms[indx];
-  let hours = requestedRoom.days["day" + day];
+  let dayName = getDayName(day)
+  let hours = requestedRoom.days[dayName.toLowerCase()];
   let availableHours = [];
 
   for (let hour in hours) {
-    if (hours[hour] === "empty") availableHours.push(hour);
+    if (hours[hour] === "available") availableHours.push(hour);
   }
 
-  let message = `<h3> On ${getDayName(day - 0)}, 
+  let message = `<h3> On ${dayName}, 
     Room ${name} is available for the following hours:
                   ${availableHours.join(" ")}  </h3> 
     `;

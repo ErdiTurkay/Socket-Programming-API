@@ -46,10 +46,11 @@ export const reserve = (room, roomPath, name, query, socket) => {
   }
 
   let requestedRoom = room.rooms[indx];
-  let hoursOfDay = requestedRoom.days["day" + day];
+  let dayName = getDayName(day).toLowerCase();
+  let hoursOfDay = requestedRoom.days[dayName];
 
   for (let i = 0; i < duration; i++) {
-    if (hoursOfDay[hour + i] !== "empty") {
+    if (hoursOfDay[hour + i] !== "available") {
       return send403(socket);
     }
   }
@@ -57,7 +58,7 @@ export const reserve = (room, roomPath, name, query, socket) => {
   let reservedHours = [];
   for (let i = 0; i < duration; i++) {
     hoursOfDay[hour + i] = "reserved";
-    let str = `<br> ${(hour + i).toString().padStart(2, "0")}:00 - ${(
+    let str = `<br> ${(hour + i).toString().padStart(2, "0")}:00-${(
       hour +
       i +
       1
@@ -68,7 +69,7 @@ export const reserve = (room, roomPath, name, query, socket) => {
     reservedHours.push(str);
   }
 
-  return writeFile(roomPath, JSON.stringify(room), (err) => {
+  return writeFile(roomPath, JSON.stringify(room, null, 2), (err) => {
     if (err)
       return sendFileWritingError(
         socket,

@@ -84,7 +84,7 @@ export const reserve = (
         room: roomName,
         when: `${getDayName(day - 0)} ${hour
           .toString()
-          .padStart(2, "0")}:00 - ${(Number(hour) + Number(duration))
+          .padStart(2, "0")}:00-${(Number(hour) + Number(duration))
           .toString()
           .padStart(2, "0")}:00`,
       };
