@@ -18,7 +18,7 @@ export const reserve = (room, roomPath, name, query, socket) => {
       return rm.name === name;
     })
   ) {
-    return send400(socket);
+    return send400(socket, "A room with the name you entered does not exist.");
   }
 
   try {
@@ -47,8 +47,11 @@ export const reserve = (room, roomPath, name, query, socket) => {
   let hoursOfDay = requestedRoom.days[dayName];
 
   for (let i = 0; i < duration; i++) {
-    if (hoursOfDay[hour + i] !== "available") {
-      return send403(socket);
+    if (hoursOfDay[hour + i] == "reserved") {
+      return send403(
+        socket,
+        "There is another reservation in the time slot you have selected."
+      );
     }
   }
 
@@ -79,12 +82,6 @@ export const reserve = (room, roomPath, name, query, socket) => {
                       ${reservedHours.join(",")}  </h3> 
         `;
 
-    const response = createResponse(
-      statusCodes[200],
-      "Reserved Hours",
-      message
-    );
-
-    return socket.end(response);
+    createResponse(socket, statusCodes[200], "Reserved Hours", message);
   });
 };

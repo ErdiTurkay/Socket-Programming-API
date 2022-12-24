@@ -2,11 +2,11 @@ import path from "path";
 import { readFileSync } from "fs";
 import { createServer } from "net";
 import { fileURLToPath } from "url";
-import { send400 } from "./common.js";
-import { reserve } from "./routes/reservation/reserve.js";
-import { display } from "./routes/reservation/display.js";
-import { fetchAllAvailableHours } from "./routes/reservation/fetchAllAvailableHours.js";
-import { listAvailability } from "./routes/reservation/listAvailability.js";
+import { send400 } from "../common.js";
+import { reserve } from "../routes/reservation/reserve.js";
+import { display } from "../routes/reservation/display.js";
+import { fetchAllAvailableHours } from "../routes/reservation/fetchAllAvailableHours.js";
+import { listAvailability } from "../routes/reservation/listAvailability.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,7 +31,12 @@ export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
       let path = "";
 
       try {
-        path = request[0].split(" ")[1].split("?")[0].slice(1).trim();
+        path = request[0]
+          .split(" ")[1]
+          .split("?")[0]
+          .slice(1)
+          .trim()
+          .toLowerCase();
         query = request[0].split(" ")[1].split("?")[1].trim();
       } catch (e) {
         return send400(socket, "Please enter a valid request!");
@@ -81,7 +86,6 @@ export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
             return;
           }
         default:
-          // Send a 400 Bad Request response if the path is invalid
           return send400(
             socket,
             `Please use one of the "display", "listavailability" or "reserve" methods!`

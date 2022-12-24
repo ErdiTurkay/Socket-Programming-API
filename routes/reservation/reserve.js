@@ -1,9 +1,11 @@
 import net from "net";
 import { writeFile } from "fs";
-import { createResponse } from "../../common.js";
-import { statusCodes } from "../../common.js";
-import { getDayName } from "../../common.js";
-import { send400 } from "../../common.js";
+import {
+  createResponse,
+  statusCodes,
+  getDayName,
+  send400,
+} from "../../common.js";
 
 export const reserve = (
   reservation,
@@ -34,11 +36,7 @@ export const reserve = (
 
   var activityClientSocket = new net.Socket();
 
-  activityClientSocket.connect(activityServerPortNumber, "localhost", () => {
-    // console.log(
-    //   "Connection from Reservation Server to Activity Server"
-    // );
-  });
+  activityClientSocket.connect(activityServerPortNumber, "localhost", () => {});
 
   activityClientSocket.write(reqToActivityServer);
 
@@ -52,9 +50,7 @@ export const reserve = (
 
     var roomClientSocket = new net.Socket();
 
-    roomClientSocket.connect(roomServerPortNumber, "localhost", () => {
-      // console.log("Connection from Reservation Server to Room Server");
-    });
+    roomClientSocket.connect(roomServerPortNumber, "localhost", () => {});
 
     let reqToRoomServer =
       `GET /reserve?name=${roomName}&day=${day}&hour=${hour}&duration=${duration} HTTTP/1.1\r\n` +
@@ -100,13 +96,13 @@ export const reserve = (
                           on ${newReservation.when}.
                           Your reservation ID is ${newReservation.id}
           `;
-          const response = createResponse(
+
+          createResponse(
+            socket,
             statusCodes[200],
             "Reservation Successful",
             message
           );
-
-          return socket.end(response);
         }
       );
     });

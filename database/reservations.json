@@ -1,3 +1,22 @@
 {
-  "reservations": []
+  "reservations": [
+    {
+      "id": 1,
+      "activity": "CSE4197Seminar",
+      "room": "M2Z08",
+      "when": "Friday 10:00-12:00"
+    },
+    {
+      "id": 2,
+      "activity": "CSE4197Seminar",
+      "room": "M2Z08",
+      "when": "Friday 14:00-16:00"
+    },
+    {
+      "id": 3,
+      "activity": "CSE4197Seminar",
+      "room": "M2Z08",
+      "when": "Wednesday 10:00-12:00"
+    }
+  ]
 }

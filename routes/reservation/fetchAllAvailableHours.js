@@ -10,9 +10,7 @@ export const fetchAllAvailableHours = (
 ) => {
   const roomClientSocket = new net.Socket();
 
-  roomClientSocket.connect(roomServerPortNumber, "localhost", () => {
-    // console.log("Connection from Reservation Server to Room Server");
-  });
+  roomClientSocket.connect(roomServerPortNumber, "localhost", () => {});
 
   const request =
     `GET /checkavailability?name=${roomName}&day=${day} HTTTP/1.1\r\n` +
@@ -65,13 +63,7 @@ export const fetchAllAvailableHours = (
 
       const message = listOfDays.map((e) => e.message).join(" \n");
 
-      const response = createResponse(
-        statusCodes[200],
-        "All Available Hours",
-        message
-      );
-
-      socket.end(response);
+      createResponse(socket, statusCodes[200], "All Available Hours", message);
 
       listOfDays = [];
     }

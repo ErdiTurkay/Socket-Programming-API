@@ -21,12 +21,11 @@ export const add = (activities, activityPath, name, socket) => {
         "Server could not add the activity."
       );
 
-    const response = createResponse(
+    createResponse(
+      socket,
       statusCodes[200],
       "Activity Added",
       "Activity with name " + name + " is successfully added."
     );
-
-    return socket.end(response);
   });
 };

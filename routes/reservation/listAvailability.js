@@ -7,9 +7,7 @@ export const listAvailability = (
   socket
 ) => {
   const roomClientSocket = new net.Socket();
-  roomClientSocket.connect(roomServerPortNumber, "localhost", () => {
-    //console.log("Connection from Reservation Server to Room Server");
-  });
+  roomClientSocket.connect(roomServerPortNumber, "localhost", () => {});
 
   let reqToRoomServer =
     `GET /checkavailability?name=${roomName}&day=${day} HTTTP/1.1\r\n` +

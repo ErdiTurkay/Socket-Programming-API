@@ -1,8 +1,10 @@
 import { writeFile } from "fs";
-import { createResponse } from "../../common.js";
-import { sendFileWritingError } from "../../common.js";
-import { statusCodes } from "../../common.js";
-import { send403 } from "../../common.js";
+import {
+  createResponse,
+  sendFileWritingError,
+  statusCodes,
+  send403,
+} from "../../common.js";
 
 export const remove = (room, roomPath, name, socket) => {
   let indx = 0;
@@ -26,12 +28,11 @@ export const remove = (room, roomPath, name, socket) => {
         "Server could not remove the activity."
       );
 
-    const response = createResponse(
+    createResponse(
+      socket,
       statusCodes[200],
       "Room Removed",
       "Room with name " + name + " is successfully removed."
     );
-
-    return socket.end(response);
   });
 };

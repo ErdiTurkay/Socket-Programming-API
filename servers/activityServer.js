@@ -2,10 +2,10 @@ import path from "path";
 import { createServer } from "net";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
-import { send400 } from "./common.js";
-import { add } from "./routes/activity/add.js";
-import { remove } from "./routes/activity/remove.js";
-import { check } from "./routes/activity/check.js";
+import { send400 } from "../common.js";
+import { add } from "../routes/activity/add.js";
+import { remove } from "../routes/activity/remove.js";
+import { check } from "../routes/activity/check.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,7 +22,12 @@ export default (portNumber) => {
       let path = "";
 
       try {
-        path = request[0].split(" ")[1].split("?")[0].slice(1).trim();
+        path = request[0]
+          .split(" ")[1]
+          .split("?")[0]
+          .slice(1)
+          .trim()
+          .toLowerCase();
         query = request[0].split(" ")[1].split("?")[1].trim();
       } catch (e) {
         return send400(socket, "Please enter a valid request!");
@@ -31,7 +36,7 @@ export default (portNumber) => {
       const name = query.split("name=")[1]?.trim();
 
       if (!name) {
-        return send400(socket);
+        return send400(socket, "The activity name must not be empty.");
       }
 
       switch (path) {

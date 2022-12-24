@@ -2,17 +2,17 @@ import path from "path";
 import { createServer } from "net";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
-import { add } from "./routes/room/add.js";
-import { remove } from "./routes/room/remove.js";
-import { checkAvailability } from "./routes/room/checkAvailability.js";
-import { reserve } from "./routes/room/reserve.js";
-import { send400 } from "./common.js";
+import { add } from "../routes/room/add.js";
+import { remove } from "../routes/room/remove.js";
+import { checkAvailability } from "../routes/room/checkAvailability.js";
+import { reserve } from "../routes/room/reserve.js";
+import { send400 } from "../common.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const roomPath = path.join(__dirname, "..", "database", "rooms.json");
 
-const createServer = (portNumber) => {
+export default (portNumber) => {
   const server = createServer((socket) => {
     socket.on("data", async (buffer) => {
       const request = buffer.toString("utf-8").split("\r\n");
@@ -23,7 +23,12 @@ const createServer = (portNumber) => {
       const room = JSON.parse(readRooms);
 
       try {
-        path = request[0].split(" ")[1].split("?")[0].slice(1).trim();
+        path = request[0]
+          .split(" ")[1]
+          .split("?")[0]
+          .slice(1)
+          .trim()
+          .toLowerCase();
         query = request[0].split(" ")[1].split("?")[1].trim();
       } catch (e) {
         return send400(socket, "Please enter a valid request!");
@@ -61,5 +66,3 @@ const createServer = (portNumber) => {
 
   return server;
 };
-
-export default createServer;

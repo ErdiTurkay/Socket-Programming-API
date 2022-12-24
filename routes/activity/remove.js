@@ -21,12 +21,11 @@ export const remove = (activities, activityPath, name, socket) => {
         "Server could not remove the activity."
       );
 
-    const response = createResponse(
+    createResponse(
+      socket,
       statusCodes[200],
       "Activity Removed",
       "Activity with name " + name + " is successfully removed."
     );
-
-    return socket.end(response);
   });
 };

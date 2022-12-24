@@ -1,6 +1,6 @@
-import reservation from "./reservationServer.js";
-import room from "./roomServer.js";
-import activity from "./activityServer.js";
+import reservation from "./servers/reservationServer.js";
+import room from "./servers/roomServer.js";
+import activity from "./servers/activityServer.js";
 
 /*
   8080: Reservation

@@ -1,7 +1,9 @@
-import { createResponse } from "../../common.js";
-import { statusCodes } from "../../common.js";
-import { getDayName } from "../../common.js";
-import { send400 } from "../../common.js";
+import {
+  createResponse,
+  statusCodes,
+  getDayName,
+  send400,
+} from "../../common.js";
 
 export const checkAvailability = (room, name, query, socket) => {
   let indx = 0;
@@ -40,6 +42,5 @@ export const checkAvailability = (room, name, query, socket) => {
     Room ${name} is available for the following hours:
                   ${availableHours.join(" ")}  </h3> 
     `;
-  const response = createResponse(statusCodes[200], "Available Hours", message);
-  return socket.end(response);
+  createResponse(socket, statusCodes[200], "Available Hours", message);
 };

@@ -20,7 +20,7 @@ export const htmlTemplate = (title, message) => {
       </html>`;
 };
 
-export const createResponse = (status, title, message) => {
+export const createResponse = (socket, status, title, message) => {
   const payload = `<html>
         <head>
             <title>${title}</title>
@@ -33,7 +33,7 @@ export const createResponse = (status, title, message) => {
 
   const contentLength = Buffer.byteLength(payload, "utf8");
 
-  return (
+  const response =
     "HTTP/1.1 " +
     status +
     "\r\n" +
@@ -44,8 +44,9 @@ export const createResponse = (status, title, message) => {
     new Date().toUTCString() +
     "\r\n" +
     "\r\n" +
-    payload
-  );
+    payload;
+
+  return socket.end(response);
 };
 
 export const createRoom = (name) => {
@@ -137,15 +138,11 @@ export const createRoom = (name) => {
 };
 
 export const send400 = (socket, message) => {
-  const response = createResponse(statusCodes[400], statusCodes[400], message);
-
-  return socket.end(response);
+  createResponse(socket, statusCodes[400], statusCodes[400], message);
 };
 
 export const send403 = (socket, message) => {
-  const response = createResponse(statusCodes[400], statusCodes[400], message);
-
-  return socket.end(response);
+  createResponse(socket, statusCodes[400], statusCodes[400], message);
 };
 
 export const getDayName = (day) => {
@@ -170,10 +167,10 @@ export const getDayName = (day) => {
 };
 
 export const sendFileWritingError = (socket, err, message) => {
-  const response = createResponse(
+  createResponse(
+    socket,
     statusCodes[500],
     "Error",
     `${message} An error occured while writing file.`
   );
-  return socket.end(response);
 };

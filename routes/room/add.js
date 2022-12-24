@@ -1,9 +1,11 @@
-import { writeFile, readFileSync } from "fs";
-import { createResponse } from "../../common.js";
-import { createRoom } from "../../common.js";
-import { sendFileWritingError } from "../../common.js";
-import { statusCodes } from "../../common.js";
-import { send403 } from "../../common.js";
+import { writeFile } from "fs";
+import {
+  createResponse,
+  createRoom,
+  sendFileWritingError,
+  statusCodes,
+  send403,
+} from "../../common.js";
 
 export const add = (room, roomPath, name, socket) => {
   for (let rm of room.rooms) {
@@ -23,12 +25,11 @@ export const add = (room, roomPath, name, socket) => {
         "Server could not add the room."
       );
 
-    const response = createResponse(
+    createResponse(
+      socket,
       statusCodes[200],
       "Room Added",
       "Room with name " + name + " is successfully added."
     );
-
-    return socket.end(response);
   });
 };
