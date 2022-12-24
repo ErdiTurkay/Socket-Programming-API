@@ -1,6 +1,6 @@
-import { createResponse } from "../../utils.js";
-import { statusCodes } from "../../utils.js";
-import { send400 } from "../../utils.js";
+import { createResponse } from "../../common.js";
+import { statusCodes } from "../../common.js";
+import { send400 } from "../../common.js";
 
 export const display = (reservation, query, socket) => {
   const reservationID = Number(query.split("&")[0].split("id=")[1]?.trim());

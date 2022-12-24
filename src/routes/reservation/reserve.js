@@ -1,9 +1,9 @@
 import net from "net";
 import { writeFile } from "fs";
-import { createResponse } from "../../utils.js";
-import { statusCodes } from "../../utils.js";
-import { getDayName } from "../../utils.js";
-import { send400 } from "../../utils.js";
+import { createResponse } from "../../common.js";
+import { statusCodes } from "../../common.js";
+import { getDayName } from "../../common.js";
+import { send400 } from "../../common.js";
 
 export const reserve = (
   reservation,
@@ -21,7 +21,7 @@ export const reserve = (
     day = query.split("&")[2].split("day=")[1]?.trim();
     hour = query.split("&")[3].split("hour=")[1]?.trim();
     duration = query.split("&")[4].split("duration=")[1]?.trim();
-  } catch (err) {
+  } catch (e) {
     return send400(socket, "Please enter a valid request!");
   }
 
@@ -82,9 +82,9 @@ export const reserve = (
         id: reservationID,
         activity: activityName,
         room: roomName,
-        when: `${getDayName(day - 0)} ${hour
-          .toString()
-          .padStart(2, "0")}:00-${(Number(hour) + Number(duration))
+        when: `${getDayName(day - 0)} ${hour.toString().padStart(2, "0")}:00-${(
+          Number(hour) + Number(duration)
+        )
           .toString()
           .padStart(2, "0")}:00`,
       };

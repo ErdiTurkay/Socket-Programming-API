@@ -1,9 +1,9 @@
 import { writeFile, readFileSync } from "fs";
-import { createResponse } from "../../utils.js";
-import { createRoom } from "../../utils.js";
-import { sendFileWritingError } from "../../utils.js";
-import { statusCodes } from "../../utils.js";
-import { send403 } from "../../utils.js";
+import { createResponse } from "../../common.js";
+import { createRoom } from "../../common.js";
+import { sendFileWritingError } from "../../common.js";
+import { statusCodes } from "../../common.js";
+import { send403 } from "../../common.js";
 
 export const add = (room, roomPath, name, socket) => {
   for (let rm of room.rooms) {

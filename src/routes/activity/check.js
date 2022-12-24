@@ -1,12 +1,10 @@
-import { statusCodes } from "../../utils.js";
-
-const httpVersion = "1.1";
+import { statusCodes, send400 } from "../../common.js";
 
 export const check = (activities, name, socket) => {
   if (activities.names.includes(name)) {
-    const response = "HTTP/" + httpVersion + " " + statusCodes[200] + "\r\n";
+    const response = "HTTP/1.1 " + statusCodes[200] + "\r\n";
     return socket.end(response);
   }
-  const response = "HTTP/" + httpVersion + " " + statusCodes[404] + "\r\n";
-  return socket.end(response);
+
+  send400(socket, "The requested activity has not been added yet.");
 };

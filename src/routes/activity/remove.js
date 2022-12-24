@@ -4,7 +4,7 @@ import {
   sendFileWritingError,
   statusCodes,
   send403,
-} from "../../utils.js";
+} from "../../common.js";
 
 export const remove = (activities, activityPath, name, socket) => {
   if (!activities.names.includes(name)) {

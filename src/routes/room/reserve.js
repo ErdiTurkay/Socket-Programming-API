@@ -6,7 +6,7 @@ import {
   getDayName,
   send400,
   send403,
-} from "../../utils.js";
+} from "../../common.js";
 
 export const reserve = (room, roomPath, name, query, socket) => {
   let day, hour, duration;
@@ -25,19 +25,16 @@ export const reserve = (room, roomPath, name, query, socket) => {
     day = query.split("&")[1].split("day=")[1]?.trim() - 0;
     hour = query.split("&")[2].split("hour=")[1]?.trim() - 0;
     duration = query.split("&")[3].split("duration=")[1]?.trim() - 0;
-  } catch (err) {
+  } catch (e) {
     return send400(socket);
   }
   if (
-    isNaN(day) ||
     day < 1 ||
     day > 7 ||
     !Number.isInteger(day) ||
-    isNaN(hour) ||
     hour < 9 ||
     hour > 17 ||
     !Number.isInteger(hour) ||
-    isNaN(duration) ||
     duration < 1 ||
     duration > 9 ||
     !Number.isInteger(duration)

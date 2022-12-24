@@ -1,8 +1,8 @@
 import { writeFile } from "fs";
-import { createResponse } from "../../utils.js";
-import { sendFileWritingError } from "../../utils.js";
-import { statusCodes } from "../../utils.js";
-import { send403 } from "../../utils.js";
+import { createResponse } from "../../common.js";
+import { sendFileWritingError } from "../../common.js";
+import { statusCodes } from "../../common.js";
+import { send403 } from "../../common.js";
 
 export const remove = (room, roomPath, name, socket) => {
   let indx = 0;

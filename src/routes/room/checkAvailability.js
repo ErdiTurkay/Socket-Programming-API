@@ -1,9 +1,7 @@
-import { createResponse } from "../../utils.js";
-import { statusCodes } from "../../utils.js";
-import { getDayName } from "../../utils.js";
-import { send400 } from "../../utils.js";
-
-const httpVersion = "1.1";
+import { createResponse } from "../../common.js";
+import { statusCodes } from "../../common.js";
+import { getDayName } from "../../common.js";
+import { send400 } from "../../common.js";
 
 export const checkAvailability = (room, name, query, socket) => {
   let indx = 0;
@@ -15,14 +13,14 @@ export const checkAvailability = (room, name, query, socket) => {
       return rm.name === name;
     })
   ) {
-    const response = "HTTP/" + httpVersion + " " + statusCodes[404] + "\r\n";
+    const response = "HTTP/1.1 " + statusCodes[404] + "\r\n";
     return socket.end(response);
   }
   let day;
 
   try {
     day = query.split("&")[1].split("day=")[1]?.trim() - 0;
-  } catch (err) {
+  } catch (e) {
     return send400(socket);
   }
   if (isNaN(day) || day < 1 || day > 7 || !Number.isInteger(day)) {
@@ -30,7 +28,7 @@ export const checkAvailability = (room, name, query, socket) => {
   }
 
   let requestedRoom = room.rooms[indx];
-  let dayName = getDayName(day)
+  let dayName = getDayName(day);
   let hours = requestedRoom.days[dayName.toLowerCase()];
   let availableHours = [];
 

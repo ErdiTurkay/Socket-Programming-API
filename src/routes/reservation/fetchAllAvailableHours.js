@@ -1,5 +1,5 @@
 import net from "net";
-import { statusCodes, send400, createResponse } from "../../utils.js";
+import { statusCodes, send400, createResponse } from "../../common.js";
 
 export const fetchAllAvailableHours = (
   day,
@@ -34,7 +34,7 @@ export const fetchAllAvailableHours = (
           .split("\r\n")[6]
           .split("h3")[1]
           .slice(2, -2);
-      } catch (err) {
+      } catch (e) {
         return send400(socket);
       }
 
@@ -52,7 +52,7 @@ export const fetchAllAvailableHours = (
           .split("\r\n")[6]
           .split("h3")[1]
           .slice(2, -2);
-      } catch (err) {
+      } catch (e) {
         return send400(socket);
       }
 

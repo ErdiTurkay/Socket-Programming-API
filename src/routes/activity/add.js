@@ -4,11 +4,11 @@ import {
   send403,
   sendFileWritingError,
   createResponse,
-} from "../../utils.js";
+} from "../../common.js";
 
 export const add = (activities, activityPath, name, socket) => {
   if (activities.names.includes(name)) {
-    return send403(socket);
+    return send403(socket, "An activity with this name already exists!");
   }
 
   activities.names.push(name);
