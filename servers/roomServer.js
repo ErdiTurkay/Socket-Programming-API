@@ -57,10 +57,10 @@ export const checkAvailability = (room, name, query, socket) => {
     try {
         day = query.split("&")[1].split("day=")[1]?.trim() - 0;
     } catch (e) {
-        return send400(socket);
+        return send400(socket, "Invalid query! Please enter a day.");
     }
     if (isNaN(day) || day < 1 || day > 7 || !Number.isInteger(day)) {
-        return send400(socket);
+        return send400(socket, "Please provide a valid day! Day must be an integer between 1 and 7.");
     }
 
     let requestedRoom = room.rooms[indx];
@@ -72,7 +72,7 @@ export const checkAvailability = (room, name, query, socket) => {
         if (hours[hour] === "available") availableHours.push(hour);
     }
 
-    let message = `<h3> On ${dayName}, 
+    let message = `<h3 style="text-align: center"> On ${dayName}, 
     Room ${name} is available for the following hours:
                   ${availableHours.join(" ")}  </h3> 
     `;
@@ -126,7 +126,7 @@ export const reserve = (room, roomPath, name, query, socket) => {
         hour = query.split("&")[2].split("hour=")[1]?.trim() - 0;
         duration = query.split("&")[3].split("duration=")[1]?.trim() - 0;
     } catch (e) {
-        return send400(socket);
+        return send400(socket, "Invalid query! One of the parameters is missing or invalid. Please enter a day, hour and duration.");
     }
     if (
         day < 1 ||
@@ -139,7 +139,7 @@ export const reserve = (room, roomPath, name, query, socket) => {
         duration > 9 ||
         !Number.isInteger(duration)
     ) {
-        return send400(socket);
+        return send400(socket, "Please provide a valid day, hour and duration! Day must be an integer between 1 and 7, hour must be an integer between 9 and 17 and duration must be an integer between 1 and 9.");
     }
 
     let requestedRoom = room.rooms[indx];

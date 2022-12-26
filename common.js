@@ -16,19 +16,29 @@ export const createResponse = (socket, status, title, message) => {
                 .title {
                     font-size: 24px;
                     font-weight: bold;
-                    color: red;
-                    margin-bottom: 10px;
+                    color: red;   
+                    text-align: center;      
                 }
                 
                 .message {
                     font-size: 18px;
                     color: #333;
+                    text-align: center;
+                }
+                #text-container {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-top: 200px;
                 }
             </style>
         </head>
         <body>
+        <div id="text-container">
             <h1 class="title">${title}</h1>
+        </div>
             <p class="message">${message}</p>
+        
         </body>
       </html>`;
 
