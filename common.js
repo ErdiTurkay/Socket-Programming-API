@@ -12,7 +12,19 @@ export const createResponse = (socket, status, title, message) => {
     const payload = `<html>
         <head>
             <title>${title}</title>
-            <link rel="stylesheet" href="styles.css">
+            <style>
+                .title {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: red;
+                    margin-bottom: 10px;
+                }
+                
+                .message {
+                    font-size: 18px;
+                    color: #333;
+                }
+            </style>
         </head>
         <body>
             <h1 class="title">${title}</h1>
