@@ -4,33 +4,34 @@ import {readFileSync, writeFile} from "fs";
 import {createServer} from "net";
 import {createResponse, getDayName, send400, statusCodes} from "../common.js";
 
-
+// Set the file path for the JSON file storing the list of reservations
 const reservationPath = path.resolve("database", "reservations.json");
+// Read the contents of the file
 const readReservations = readFileSync(reservationPath, {
     encoding: "utf-8",
 });
-
+// Parse the JSON file contents into a JavaScript object
 const reservation = JSON.parse(readReservations);
 
-export const display = (reservation, query, socket) => {
-    const reservationID = Number(query.split("&")[0].split("id=")[1]?.trim());
-    const foundReservation = reservation.reservations.find(
+export const display = (reservation, query, socket) => { // Display the details of a specific reservation
+    const reservationID = Number(query.split("&")[0].split("id=")[1]?.trim()); // Get the reservation ID from the query
+    const foundReservation = reservation.reservations.find( // Find the reservation with the given ID
         (e) => e.id === reservationID
     );
 
-    if (!foundReservation) {
+    if (!foundReservation) { // If the reservation does not exist
         return send400(
             socket,
             "There is no reservation according to the ID you entered."
         );
     }
-
-    const message = `Reservation ID: ${reservationID} <br>
+    // Construct the message to be sent in the HTTP response
+    const message = `Reservation ID: ${reservationID} <br> 
                        Room: ${foundReservation.room} <br>
                        Activity:  ${foundReservation.activity} <br>
                        When:  ${foundReservation.when} `;
 
-    createResponse(
+    createResponse(  // Send a response to the client
         socket,
         statusCodes[200],
         `Reservation ID: ${reservationID}`,
@@ -38,31 +39,32 @@ export const display = (reservation, query, socket) => {
     );
 };
 
-export const fetchAllAvailableHours = (
+export const fetchAllAvailableHours = ( // Fetch all available hours for a given day
     day,
     listOfDays,
     roomName,
     roomServerPortNumber,
     socket
 ) => {
-    const roomClientSocket = new net.Socket();
+    const roomClientSocket = new net.Socket(); // Create a new socket
 
     roomClientSocket.connect(roomServerPortNumber, "localhost", () => {
-    });
+    }); // Connect to the room server
 
-    const request =
+    const request = // Create a request to the room server
         `GET /checkavailability?name=${roomName}&day=${day} HTTTP/1.1\r\n` +
         "Host: localhost\r\n" +
         "Accept: text/html\r\n" +
         "Accepted-Language: en-us,en\r\n" +
         "\r\n";
 
-    roomClientSocket.write(request);
+    roomClientSocket.write(request); // Send the request to the room server
 
-    roomClientSocket.on("data", (data) => {
-        const responseFromRoomServer = data.toString("utf-8");
+    roomClientSocket.on("data", (data) => { // When the room server sends a response
+        const responseFromRoomServer = data.toString("utf-8"); // Get the response from the room server
 
         if (listOfDays.length < 6) {
+            // Parse the list of available hours from the response
             let hours;
 
             try {
@@ -73,7 +75,7 @@ export const fetchAllAvailableHours = (
             } catch (e) {
                 return send400(socket);
             }
-
+            // Add the day and the available hours to the list of days
             listOfDays.push({
                 day: day,
                 message: "<br>" + hours,
@@ -96,9 +98,9 @@ export const fetchAllAvailableHours = (
                 day: day,
                 message: "<br>" + hours,
             });
-
+            // Sort the list of days by day number
             listOfDays.sort((a, b) => a.day - b.day);
-
+            // Construct the message to be sent in the HTTP response
             const message = listOfDays.map((e) => e.message).join(" \n");
 
             createResponse(socket, statusCodes[200], "All Available Hours", message);
@@ -108,7 +110,7 @@ export const fetchAllAvailableHours = (
     });
 };
 
-export const listAvailability = (
+export const listAvailability = ( // Display the available hours for each day of the week
     day,
     roomName,
     roomServerPortNumber,
@@ -145,25 +147,25 @@ export const reserve = (
     let day, hour, duration, activityName;
 
     try {
-        activityName = query.split("&")[1].split("activity=")[1]?.trim();
-        day = query.split("&")[2].split("day=")[1]?.trim();
-        hour = query.split("&")[3].split("hour=")[1]?.trim();
-        duration = query.split("&")[4].split("duration=")[1]?.trim();
+        activityName = query.split("&")[1].split("activity=")[1]?.trim(); // Get the activity name from the query
+        day = query.split("&")[2].split("day=")[1]?.trim(); // Get the day from the query
+        hour = query.split("&")[3].split("hour=")[1]?.trim(); // Get the hour from the query
+        duration = query.split("&")[4].split("duration=")[1]?.trim(); // Get the duration from the query
     } catch (e) {
-        return send400(socket, "Please enter a valid request!");
+        return send400(socket, "Please enter a valid request!"); // If the query is invalid
     }
 
-    let reqToActivityServer =
+    let reqToActivityServer = // Create a request to the activity server
         `GET /check?name=${activityName} HTTTP/1.1\r\n` +
         "Host: localhost\r\n" +
         "Accept: text/html\r\n" +
         "Accepted-Language: en-us,en\r\n" +
         "\r\n";
 
-    var activityClientSocket = new net.Socket();
+    var activityClientSocket = new net.Socket(); // Create a new socket
 
     activityClientSocket.connect(activityServerPortNumber, "localhost", () => {
-    });
+    }); // Connect to the activity server
 
     activityClientSocket.write(reqToActivityServer);
 
@@ -171,7 +173,7 @@ export const reserve = (
         const responseFromActivityServer = data.toString("utf-8");
         const responseStatus = responseFromActivityServer.split(" ")[1];
 
-        if (responseStatus !== "200") {
+        if (responseStatus !== "200") { // If the activity does not exist
             return socket.end(responseFromActivityServer);
         }
 
@@ -180,7 +182,7 @@ export const reserve = (
         roomClientSocket.connect(roomServerPortNumber, "localhost", () => {
         });
 
-        let reqToRoomServer =
+        let reqToRoomServer = // Create a request to the room server
             `GET /reserve?name=${roomName}&day=${day}&hour=${hour}&duration=${duration} HTTTP/1.1\r\n` +
             "Host: localhost\r\n" +
             "Accept: text/html\r\n" +

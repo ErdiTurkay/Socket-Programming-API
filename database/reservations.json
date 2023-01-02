@@ -5,12 +5,6 @@
       "activity": "CSE4197Seminar",
       "room": "M2Z08",
       "when": "Friday 10:00-12:00"
-    },
-    {
-      "id": 2,
-      "activity": "CSE4197",
-      "room": "M2Z08",
-      "when": "Friday 13:00-15:00"
     }
   ]
 }
