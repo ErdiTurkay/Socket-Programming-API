@@ -71,7 +71,7 @@ export const fetchAllAvailableHours = ( // Fetch all available hours
                 hours = responseFromRoomServer
                     .split("\r\n")[6]
                     .split("h3")[1]
-                    .slice(2, -2);
+                    .slice(28, -2);
             } catch (e) {
                 return send400(socket);
             }
@@ -89,7 +89,7 @@ export const fetchAllAvailableHours = ( // Fetch all available hours
                 hours = responseFromRoomServer
                     .split("\r\n")[6]
                     .split("h3")[1]
-                    .slice(2, -2);
+                    .slice(28, -2);
             } catch (e) {
                 return send400(socket);
             }
