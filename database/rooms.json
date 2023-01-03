@@ -16,8 +16,8 @@
         },
         "tuesday": {
           "9": "available",
-          "10": "available",
-          "11": "available",
+          "10": "reserved",
+          "11": "reserved",
           "12": "available",
           "13": "available",
           "14": "available",
@@ -37,9 +37,9 @@
           "17": "available"
         },
         "thursday": {
-          "9": "available",
-          "10": "available",
-          "11": "available",
+          "9": "reserved",
+          "10": "reserved",
+          "11": "reserved",
           "12": "available",
           "13": "available",
           "14": "available",
@@ -53,10 +53,10 @@
           "11": "reserved",
           "12": "available",
           "13": "available",
-          "14": "available",
-          "15": "available",
-          "16": "available",
-          "17": "available"
+          "14": "reserved",
+          "15": "reserved",
+          "16": "reserved",
+          "17": "reserved"
         },
         "saturday": {
           "9": "available",

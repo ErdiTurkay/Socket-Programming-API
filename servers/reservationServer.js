@@ -39,7 +39,7 @@ export const display = (reservation, query, socket) => { // Display the details 
     );
 };
 
-export const fetchAllAvailableHours = ( // Fetch all available hours for a given day
+export const fetchAllAvailableHours = ( // Fetch all available hours
     day,
     listOfDays,
     roomName,
@@ -239,87 +239,82 @@ export const reserve = (
     });
 };
 
-
 export default (portNumber, roomServerPortNumber, activityServerPortNumber) => {
-    const server = createServer((socket) => {
+    const server = net.createServer((socket) => {
+        let listOfDays = [];
+        let i = 1;
+
         socket.on("data", async (buffer) => {
             const request = buffer.toString("utf-8").split("\r\n");
             let query = "";
             let path = "";
-
             try {
-                path = request[0]
-                    .split(" ")[1]
-                    .split("?")[0]
-                    .slice(1)
-                    .trim()
-                    .toLowerCase();
+                path = request[0].split(" ")[1].split("?")[0].slice(1).trim();
                 query = request[0].split(" ")[1].split("?")[1].trim();
-            } catch (e) {
+            } catch (err) {
                 return send400(socket, "Please enter a valid request!");
+            }
+
+            if (
+                path !== "display" &&
+                path !== "listavailability" &&
+                path !== "reserve"
+            ) {
+                return send400(
+                    socket,
+                    `Please use one of the "display", "listavailability" or "reserve" methods!`
+                );
             }
 
             let roomName = "";
 
             if (path === "listavailability" || path === "reserve") {
                 roomName = query.split("&")[0].split("room=")[1]?.trim();
-
-                if (!roomName) {
+                if (roomName === "" || roomName == undefined) {
                     return send400(socket, "The room name must not be empty.");
                 }
             }
 
-            switch (path) {
-                case "reserve":
-                    return reserve(
-                        reservation,
-                        reservationPath,
+            if (path === "reserve")
+                return reserve(
+                    reservation,
+                    reservationPath,
+                    roomName,
+                    query,
+                    activityServerPortNumber,
+                    roomServerPortNumber,
+                    socket
+                );
+
+            const day = query.split("&")[1]?.split("day=")[1]?.trim();
+
+            if (path == "listavailability" && day)
+                return listAvailability(day, roomName, roomServerPortNumber, socket);
+
+            if (path == "listavailability" && !day) {
+                for (let x = 1; x < 8; x++) {
+                    fetchAllAvailableHours(
+                        i,
+                        listOfDays,
                         roomName,
-                        query,
-                        activityServerPortNumber,
                         roomServerPortNumber,
                         socket
                     );
-                case "display":
-                    return display(reservation, query, socket);
-                case "listavailability":
-                    const day = query.split("&")[1]?.split("day=")[1]?.trim();
-                    if (day) {
-                        return listAvailability(
-                            day,
-                            roomName,
-                            roomServerPortNumber,
-                            socket
-                        );
-                    } else {
-                        for (let i = 1; i < 8; i++) {
-                            await fetchAllAvailableHours(
-                                i,
-                                roomName,
-                                roomServerPortNumber,
-                                socket
-                            );
-                        }
-                        return;
-                    }
-                default:
-                    return send400(
-                        socket,
-                        `Please use one of the "display", "listavailability" or "reserve" methods!`
-                    );
+                    i++;
+                }
+                listOfDays = [];
+                return;
             }
+
+            if (path == "display") return display(reservation, query, socket);
         });
     });
 
+    server.listen(portNumber);
     server.on("error", (e) => {
         if (e.code === "EADDRINUSE") {
-            console.log(
-                "<Reservation Server> The given port number is already in use!"
-            );
+            console.log("<Reservation Server> Address in use, retrying...");
         }
     });
-
-    server.listen(portNumber);
-
     return server;
 };

@@ -5,6 +5,36 @@
       "activity": "CSE4197Seminar",
       "room": "M2Z08",
       "when": "Friday 10:00-12:00"
+    },
+    {
+      "id": 2,
+      "activity": "CSE4197",
+      "room": "M2Z08",
+      "when": "Friday 10:00-12:00"
+    },
+    {
+      "id": 3,
+      "activity": "CSE4197",
+      "room": "M2Z08",
+      "when": "Thursday 09:00-12:00"
+    },
+    {
+      "id": 4,
+      "activity": "CSE4197",
+      "room": "M2Z08",
+      "when": "Friday 14:00-16:00"
+    },
+    {
+      "id": 5,
+      "activity": "CSE4197",
+      "room": "M2Z08",
+      "when": "Friday 16:00-18:00"
+    },
+    {
+      "id": 6,
+      "activity": "CSE4197",
+      "room": "M2Z08",
+      "when": "Tuesday 10:00-12:00"
     }
   ]
 }
